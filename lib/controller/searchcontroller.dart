@@ -4,25 +4,32 @@ import 'package:get/get.dart';
 class SearchAyahController extends GetxController {
   List results = [];
   List inf = [];
+  List infMainId = [];
+  List infArrayId = [];
+   List tafsir = [] ;
   final arabictool = Arabic_Tools();
   List<dynamic> searchQuran(String query, List<dynamic> surahs) {
+    results.clear();
+    inf.clear();
+    infArrayId.clear();
+    infMainId.clear();
+    tafsir.clear();
     String processedQuery = arabictool.RemoveTashkeel(query);
 
     for (var surah in surahs) {
-      for (var ayat in surah['array']) {
+      surah['array'].asMap().forEach((index, ayat) {
         var ayat0 = normalise(ayat['ar']);
-        //  print(ayat0);
         if (ayat0.contains(processedQuery.toLowerCase())) {
-          print({ayat});
           results.add(ayat['ar']);
-          print(surah['name']);
           inf.add(surah['name']);
-        } else {
-          // print('2');
-        }
-      }
+          infMainId.add(surah['id']);
+          infArrayId.add(surah['array'][index]['id']);
+          
+        } else {}
+      });
     }
 
+    print(inf);
     return results;
   }
 

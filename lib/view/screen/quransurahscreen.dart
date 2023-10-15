@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:quraan/controller/searchcontroller.dart';
 import 'package:quraan/controller/surahcontroller.dart';
 import 'package:quraan/core/constant/enum.dart';
-// import 'package:quraan/core/services/sharedpreferences.dart';
 import 'package:quraan/view/screen/homescreen.dart';
 import 'package:quraan/view/screen/searchscreen.dart';
 
@@ -12,117 +11,129 @@ class QuranSurahScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SurahController controller0 = Get.put(SurahController());
     SearchAyahController controller2 = Get.put(SearchAyahController());
     final scroll = ScrollController();
     bool isScroll = false;
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
+        child: GetBuilder<SurahController>(
+            init: SurahController(),
+            builder: (controller) {
+              return Column(
                 children: [
-                  Expanded(
-                    child: Form(
-                      child: TextFormField(
-                        onSaved: (val) {},
-                        onFieldSubmitted: (val) {
-                          // controller2.searchQuran(val, controller0.json);
-                          var responce =
-                              controller2.searchQuran(val, controller0.json);
-                          // print(responce);
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Form(
+                            child: TextFormField(
+                              onFieldSubmitted: (val) {
+                                controller2.searchQuran(val, controller.json);
+                                final myMap = controller.tafsir;
 
-                          Get.to(SearchScreen(
-                              search: controller2.results,
-                              inf: controller2.inf));
-                          controller2.update();
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Search For Ayah',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
+                                for (int i = 0;
+                                    i < controller2.infMainId.length;
+                                    i++) {
+                                  var filteredMapList = myMap
+                                      .where((map) =>
+                                          map["chapter"] ==
+                                              controller2.infMainId[i] &&
+                                          map['verse'] ==
+                                              controller2.infArrayId[i])
+                                      .toList();
+                                  controller2.tafsir.addAll(filteredMapList);
+                                }
+                                Get.to(() => SearchScreen(
+                                      search: controller2.results,
+                                      inf: controller2.inf,
+                                      tafsir: controller2.tafsir,
+                                    ));
+                                controller2.update();
+                              },
+                              decoration: InputDecoration(
+                                suffix: Text('${controller2.results.length}'),
+                                labelText: 'Search For Ayah',
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            GetBuilder<SurahController>(
-              init: SurahController(),
-              builder: (controller) => controller.statusRequest ==
-                      StatusRequest.success
-                  ? Expanded(
-                      child: ListView.builder(
-                          controller: scroll,
-                          shrinkWrap: true,
-                          itemCount: controller.json.length,
-                          itemBuilder: (context, i) {
-                            //  bool isScroll = scroll.position.maxScrollExtent == 0 ? false:true;
-                            return ListTile(
-                              onTap: () {
-                                final myMap = controller.tafsir;
-                                var filteredMapList = myMap
-                                    .where((map) =>
-                                        map["chapter"] ==
-                                        controller.json[i]['id'])
-                                    .toList();
-                                // print(filteredMapList);
-                                controller.myservices.shared.setString(
-                                    'lastread',
-                                    '${controller.json[i]['name_translation']}');
-                                controller.myservices.shared
-                                    .setInt('numberlastread', i);
-                                print(controller.myservices.shared
-                                    .getInt('numberlastread'));
-                                Get.to(() => HomeScreen(
-                                      id: controller.json[i]['array'],
-                                      controller: filteredMapList,
-                                    ));
-                                controller.update();
-                              },
-                              leading: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Text("${controller.json[i]['id']}")),
-                              title: Text(
-                                "${controller.json[i]['name_translation']}",
-                                style: const TextStyle(fontFamily: 'poppins'),
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Text(
-                                    "${controller.json[i]['type']}",
+                  controller.statusRequest == StatusRequest.success
+                      ? Expanded(
+                          child: ListView.builder(
+                              controller: scroll,
+                              shrinkWrap: true,
+                              itemCount: controller.json.length,
+                              itemBuilder: (context, i) {
+                                return ListTile(
+                                  onTap: () {
+                                    final myMap = controller.tafsir;
+                                    var filteredMapList = myMap
+                                        .where((map) =>
+                                            map["chapter"] ==
+                                            controller.json[i]['id'])
+                                        .toList();
+                                    // print(filteredMapList);
+                                    controller.myservices.shared.setString(
+                                        'lastread',
+                                        '${controller.json[i]['name_translation']}');
+                                    controller.myservices.shared
+                                        .setInt('numberlastread', i);
+                                    Get.to(() => HomeScreen(
+                                          id: controller.json[i]['array'],
+                                          controller: filteredMapList,
+                                        ));
+                                    controller.update();
+                                  },
+                                  leading: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child:
+                                          Text("${controller.json[i]['id']}")),
+                                  title: Text(
+                                    "${controller.json[i]['name_translation']}",
                                     style:
                                         const TextStyle(fontFamily: 'poppins'),
                                   ),
-                                ],
-                              ),
-                              trailing: Text(
-                                '${controller.json[i]['name']}',
-                                style: const TextStyle(fontFamily: 'poppins'),
-                              ),
-                            );
-                          }),
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            ),
-          ],
-        ),
+                                  subtitle: Row(
+                                    children: [
+                                      Text(
+                                        "${controller.json[i]['type']}",
+                                        style: const TextStyle(
+                                            fontFamily: 'poppins'),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Text(
+                                    '${controller.json[i]['name']}',
+                                    style:
+                                        const TextStyle(fontFamily: 'poppins'),
+                                  ),
+                                );
+                              }),
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                ],
+              );
+            }),
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.lightGreen,
