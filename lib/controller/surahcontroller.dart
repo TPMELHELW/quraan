@@ -19,10 +19,8 @@ class SurahController extends GetxController {
     var responce1 = await rootBundle.loadString('assets/json/tafsir.json');
     var responcebody1 = await jsonDecode(responce1);
     if (responcebody != null && responcebody1 != null) {
-      print(responcebody1);
       json.addAll(responcebody);
       tafsir.addAll(responcebody1['quran']);
-      print(tafsir);
       statusRequest = StatusRequest.success;
     }
 
@@ -36,7 +34,7 @@ class SurahController extends GetxController {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await decodeData(Get.context!);
     });
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         // statusBarBrightness: Brightness.light
         statusBarIconBrightness: Brightness.dark));

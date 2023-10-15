@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quraan/controller/detailsurahcontroller.dart';
 import 'package:quraan/controller/surahcontroller.dart';
-import 'package:quraan/view/widget/SliderBall.dart';
 
 class AudioScreen extends StatelessWidget {
   const AudioScreen({super.key});
@@ -15,7 +14,7 @@ class AudioScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Audio",
           style: TextStyle(color: Colors.black),
         ),
@@ -104,7 +103,7 @@ class AudioScreen extends StatelessWidget {
                         : Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: SliderTheme(
-                              data: SliderThemeData(
+                              data: const SliderThemeData(
                                 trackHeight: 10
                               ),
                               child: Slider(

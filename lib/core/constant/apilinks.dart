@@ -1,1 +1,0 @@
- String surah = 'https://api.quran.gading.dev/surah'; 

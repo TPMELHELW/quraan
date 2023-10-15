@@ -21,18 +21,15 @@ class ContainerView extends StatelessWidget {
               image: AssetImage('assets/images/4.jpg'), fit: BoxFit.fill),
           color: Colors.blue),
       child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               mainText,
-              // textAlign: TextAlign.left,
               style: const TextStyle(
                   color: Colors.grey, fontSize: 15, fontFamily: "poppins"),
             ),
             Text(
               subText,
-              // textAlign: TextAlign.left,
               style: const TextStyle(
                   color: Colors.white, fontSize: 35, fontFamily: "poppins"),
             ),

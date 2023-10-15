@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quraan/view/widget/detailsurah.dart';
-import 'package:quraan/view/widget/drawerscreen.dart';
 
 class HomeScreen extends StatelessWidget {
   final List id;
@@ -17,7 +16,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          DrawerScreen(),
           DetailSurah(
             id: id,
             controller0: controller,

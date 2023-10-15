@@ -1,8 +1,7 @@
 enum StatusRequest {
-  offline,
   success,
-  loading,
   none,
+  offline,
   failure,
-  serverFailure
+  loading
 }

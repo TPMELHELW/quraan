@@ -11,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
         children: [
           Image.asset('assets/images/1.png'),
           const Text(
-            'Hafiz',
+            'Moshafi',
             style: TextStyle(
                 fontSize: 50,
                 fontFamily: 'poppins',

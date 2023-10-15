@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quraan/controller/surahcontroller.dart';
-import 'package:quraan/core/services/sharedpreferences.dart';
+import 'package:quraan/view/screen/aboutapp.dart';
 import 'package:quraan/view/screen/audioscreen.dart';
 import 'package:quraan/view/screen/homescreen.dart';
 import 'package:quraan/view/screen/quransurahscreen.dart';
@@ -12,7 +12,6 @@ class SelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Services myservices = Get.find();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -25,7 +24,6 @@ class SelectionScreen extends StatelessWidget {
               'Quran',
               textAlign: TextAlign.center,
               style: TextStyle(
-                // fontSize: 40,
                 fontFamily: 'poppins',
                 fontWeight: FontWeight.bold,
                 color: Colors.green,
@@ -54,7 +52,6 @@ class SelectionScreen extends StatelessWidget {
                       id: controller.json[controller.myservices.shared
                           .getInt('numberlastread')!]['array'],
                       controller: filteredMapList));
-                  // controller.update();
                 },
               ),
             ),
@@ -73,6 +70,14 @@ class SelectionScreen extends StatelessWidget {
             subText: 'Audio',
             onPressed: () {
               Get.to(() => const AudioScreen());
+            },
+          )),
+          SliverToBoxAdapter(
+              child: ContainerView(
+            mainText: 'Ideas',
+            subText: 'About App',
+            onPressed: () {
+              Get.to(() => const AboutApp());
             },
           )),
         ]),

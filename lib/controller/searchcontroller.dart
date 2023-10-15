@@ -6,7 +6,7 @@ class SearchAyahController extends GetxController {
   List inf = [];
   List infMainId = [];
   List infArrayId = [];
-   List tafsir = [] ;
+  List tafsir = [];
   final arabictool = Arabic_Tools();
   List<dynamic> searchQuran(String query, List<dynamic> surahs) {
     results.clear();
@@ -24,12 +24,10 @@ class SearchAyahController extends GetxController {
           inf.add(surah['name']);
           infMainId.add(surah['id']);
           infArrayId.add(surah['array'][index]['id']);
-          
         } else {}
       });
     }
 
-    print(inf);
     return results;
   }
 
