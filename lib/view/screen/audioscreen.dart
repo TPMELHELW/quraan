@@ -122,17 +122,7 @@ class AudioScreen extends StatelessWidget {
                                     controller.player.resume();
                                   }),
                             )
-                            // SliderBall(
-                            //   initialValue: 0,
-                            //   finalValue: controller.duration.inSeconds,
-                            //   onSelectStart: () {},
-                            //   onSelectEnd: (int value) {
-                            //     final position = Duration(seconds: value);
-                            //     controller.isPlay = true;
-                            //     controller.player.seek(position);
-                            //     controller.player.resume();
-                            //   },
-                            // ),
+                      
                             ),
                   ]),
                 )

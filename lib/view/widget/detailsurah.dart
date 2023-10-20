@@ -30,11 +30,11 @@ class DetailSurah extends StatelessWidget {
                                       color: Colors.green,
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Text("${id[i]['id']}")),
-                              title: Text(
+                              title: SelectableText(
                                 "${id[i]['ar']}",
                                 style: const TextStyle(fontFamily: 'poppins'),
                               ),
-                              subtitle: Text(
+                              subtitle: SelectableText(
                                 "${id[i]['en']}",
                                 style: const TextStyle(fontFamily: 'poppins'),
                               ),
@@ -57,7 +57,7 @@ class DetailSurah extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           fontFamily: "cairo"),
                                     ),
-                                    Text(
+                                    SelectableText(
                                       '${controller0[i]['text']}',
                                       textAlign: TextAlign.center,
                                       style:

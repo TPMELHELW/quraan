@@ -24,7 +24,9 @@ class SearchAyahController extends GetxController {
           inf.add(surah['name']);
           infMainId.add(surah['id']);
           infArrayId.add(surah['array'][index]['id']);
-        } else {}
+        } else {
+          
+        }
       });
     }
 
