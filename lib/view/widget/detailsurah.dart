@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/detailsurahcontroller.dart';
+import 'package:quraan/controller/surahcontroller.dart';
+import 'package:quraan/core/services/sharedpreferences.dart';
 
 class DetailSurah extends StatelessWidget {
   final List id;
@@ -9,8 +10,9 @@ class DetailSurah extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DetailSurahController>(
-        init: DetailSurahController(),
+    Services myservices = Get.find();
+    return GetBuilder<SurahController>(
+        init: SurahController(),
         builder: (controller) {
           return SafeArea(
             child: Column(
@@ -32,36 +34,46 @@ class DetailSurah extends StatelessWidget {
                                   child: Text("${id[i]['id']}")),
                               title: SelectableText(
                                 "${id[i]['ar']}",
-                                style: const TextStyle(fontFamily: 'poppins'),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                        fontSize: myservices.shared
+                                            .getDouble("fontsize")),
                               ),
                               subtitle: SelectableText(
                                 "${id[i]['en']}",
-                                style: const TextStyle(fontFamily: 'poppins'),
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
                             Container(
                               padding: const EdgeInsets.all(18),
                               width: MediaQuery.of(context).size.width * 0.90,
-                              decoration: const BoxDecoration(
-                                  color: Colors.greenAccent,
-                                  borderRadius: BorderRadius.only(
+                              decoration: BoxDecoration(
+                                  color:
+                                      myservices.shared.getBool("dark") == true
+                                          ? Colors.white
+                                          : Colors.greenAccent,
+                                  borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(30),
                                       bottomLeft: Radius.circular(30),
                                       bottomRight: Radius.circular(30))),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'التفسير الميسر',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "cairo"),
-                                    ),
+                                    Text('التفسير الميسر',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
                                     SelectableText(
                                       '${controller0[i]['text']}',
                                       textAlign: TextAlign.center,
-                                      style:
-                                          const TextStyle(fontFamily: 'cairo'),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              fontSize: myservices.shared
+                                                  .getDouble("fontsizetafsir")),
                                     )
                                   ]),
                             )

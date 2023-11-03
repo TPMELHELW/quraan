@@ -41,19 +41,19 @@ class SurahSelectionView extends StatelessWidget {
                   child: Text("${controller.json[i]['id']}")),
               title: Text(
                 "${controller.json[i]['name_translation']}",
-                style: const TextStyle(fontFamily: 'poppins'),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               subtitle: Row(
                 children: [
                   Text(
                     "${controller.json[i]['type']}",
-                    style: const TextStyle(fontFamily: 'poppins'),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),
               trailing: Text(
                 '${controller.json[i]['name']}',
-                style: const TextStyle(fontFamily: 'poppins'),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             );
           }),

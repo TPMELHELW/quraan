@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:quraan/binding/binding.dart';
+import 'package:quraan/controller/settings_controller.dart';
 import 'package:quraan/controller/splashscreencontroller.dart';
 import 'package:quraan/core/services/sharedpreferences.dart';
 import 'package:quraan/view/screen/selectionscreen.dart';
@@ -19,8 +20,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Services myservices = Get.find();
+    SettingsController controller = Get.put(SettingsController());
     return GetMaterialApp(
-        initialBinding: MainBinding(), home: const SplashScreen());
+      initialBinding: MainBinding(),
+      home: const SplashScreen(),
+      theme: myservices.shared.getBool("dark") == true
+          ? controller.customDarkTheme
+          : controller.customLightTheme,
+    );
   }
 }
 

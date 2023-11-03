@@ -6,7 +6,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: Column(
         children: [
           Image.asset('assets/images/1.png'),
@@ -18,9 +18,9 @@ class WelcomeScreen extends StatelessWidget {
                 color: Color(0xFF87d1a4),
                 fontWeight: FontWeight.bold),
           ),
-          const Text(
+          Text(
             'Learn Quran and \nRecite everyday',
-            style: TextStyle(fontSize: 20, fontFamily: 'poppins'),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           const SizedBox(
             height: 30,
@@ -30,15 +30,14 @@ class WelcomeScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Colors.greenAccent,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30)
-              ),
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
             ),
-            child: const Text(
+            child: Text(
               'Please Swipe the Screen \nto go to Home Screen',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontFamily: 'poppins'),
+              style: Theme.of(context).textTheme.displayMedium,
             ),
           )
         ],

@@ -23,10 +23,10 @@ class SearchScreen extends StatelessWidget {
                           color: Colors.green,
                           borderRadius: BorderRadius.circular(10)),
                       child: Text("${i + 1}")),
-                  title: Text(
+                  title: SelectableText(
                     "${search[i]}",
                   ),
-                  subtitle: Text(
+                  subtitle: SelectableText(
                     "${inf[i]}",
                     style: const TextStyle(fontFamily: 'poppins'),
                   ),
@@ -48,7 +48,7 @@ class SearchScreen extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontFamily: "cairo"),
                         ),
-                        Text(
+                        SelectableText(
                           '${tafsir[i]['text']}',
                           textAlign: TextAlign.center,
                           style: const TextStyle(fontFamily: 'cairo'),

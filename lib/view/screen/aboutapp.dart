@@ -24,7 +24,7 @@ class AboutApp extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      "Version 1.0.0",
+                      "Version 1.1.1",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'cairo', fontWeight: FontWeight.bold),

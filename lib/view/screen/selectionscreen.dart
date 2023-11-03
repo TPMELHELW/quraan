@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quraan/controller/surahcontroller.dart';
-import 'package:quraan/view/screen/aboutapp.dart';
+
 import 'package:quraan/view/screen/audioscreen.dart';
 import 'package:quraan/view/screen/homescreen.dart';
 import 'package:quraan/view/screen/quransurahscreen.dart';
+import 'package:quraan/view/screen/settings_screen.dart';
 import 'package:quraan/view/widget/containerview.dart';
 
 class SelectionScreen extends StatelessWidget {
@@ -19,7 +20,6 @@ class SelectionScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text(
           'Quran',
-          // textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: 'poppins',
             fontWeight: FontWeight.bold,
@@ -27,7 +27,6 @@ class SelectionScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: ListView(children: [
           GetBuilder<SurahController>(
@@ -66,9 +65,9 @@ class SelectionScreen extends StatelessWidget {
           ),
           ContainerView(
             mainText: 'Ideas',
-            subText: 'About App',
+            subText: 'Settings',
             onPressed: () {
-              Get.to(() => const AboutApp());
+              Get.to(() => const SettingsScreen());
             },
           ),
         ]),
