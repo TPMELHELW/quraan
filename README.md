@@ -20,3 +20,6 @@ https://www.mediafire.com/file/5w3al2nvuyumm8v/app-release.apk/file
 
 
 3- اصلاح بعض الاخطاء.
+
+
+4- تحميل الصوت والقدرة علي الاستماع اليه بدون انترنت.
