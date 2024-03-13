@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quraan/controller/surahcontroller.dart';
+import 'package:quraan/controller/surah_controller.dart';
+// import 'package:quraan/controller/surahcontroller.dart';
 
 class DrawerWidget extends StatelessWidget {
   final SurahController controller;
@@ -34,8 +35,7 @@ class DrawerWidget extends StatelessWidget {
               style: const TextStyle(fontFamily: "cairo"),
             ),
             onTap: () {
-              controller.onPress(controller.readers[i],
-                  controller.readers[i]['moshaf'][0]["surah_list"]);
+              controller.onPress(i);
               // controller.drawerController
               controller.drawerController.hideDrawer();
               controller.update();

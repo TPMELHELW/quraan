@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:quraan/binding/binding.dart';
 import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/controller/splashscreencontroller.dart';
-import 'package:quraan/core/services/sharedpreferences.dart';
-import 'package:quraan/view/screen/selectionscreen.dart';
-import 'package:quraan/view/screen/welcomescreen.dart';
+import 'package:quraan/controller/surah_controller.dart';
+import 'package:quraan/core/services/shared_preferences.dart';
+import 'package:quraan/view/screen/selection_screen.dart';
+import 'package:quraan/view/screen/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,14 +20,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Services myservices = Get.find();
-    SettingsController controller = Get.put(SettingsController());
-    return GetMaterialApp(
-      initialBinding: MainBinding(),
-      home: const SplashScreen(),
-      theme: myservices.shared.getBool("dark") == true
-          ? controller.customDarkTheme
-          : controller.customLightTheme,
+    Get.put(SurahController());
+    return GetBuilder<SettingsController>(
+      init: SettingsController(),
+      builder: (controller) {
+        return GetMaterialApp(
+          initialBinding: MainBinding(),
+          home: Scaffold(
+            backgroundColor: Colors.black,
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset("assets/images/1.png"),
+                const SpinKitThreeBounce(
+                  color: Colors.white,
+                  size: 50,
+                )
+              ],
+            ),
+          ),
+          themeMode: controller.themeMode,
+          theme: controller.customLightTheme,
+          darkTheme: controller.customDarkTheme,
+        );
+      },
     );
   }
 }
@@ -54,20 +70,12 @@ class StackScreen extends StatelessWidget {
   }
 }
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+// class SplashScreen extends StatelessWidget {
+//   const SplashScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    Get.put(SplashScreenController());
-    return Scaffold(
-        backgroundColor: Colors.black,
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image.asset("assets/images/1.png"),
-          const SpinKitThreeBounce(
-            color: Colors.white,
-            size: 50,
-          )
-        ]));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     Get.put(SplashScreenController());
+//     return
+//   }
+// }

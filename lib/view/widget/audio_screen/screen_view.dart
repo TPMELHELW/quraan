@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:quraan/controller/surahcontroller.dart';
+import 'package:quraan/controller/surah_controller.dart';
 
 class ScreenView extends StatelessWidget {
   final SurahController controller;
-  const ScreenView(
-      {super.key, required this.controller});
+  const ScreenView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +53,16 @@ class ScreenView extends StatelessWidget {
                     onPressed: () async {
                       Permission.storage;
                       FileDownloader.downloadFile(
-                          name:
-                              "${controller.audioSelected['id']}${controller.selectedSheikhSuar[i]['id']}",
-                          url:
-                              "${controller.audioSelected['moshaf'][0]['server']}/${controller.selectedSheikhSuar[i]['array'][0]['filename']}",
-                          downloadDestination: DownloadDestinations.appFiles,
-                          onDownloadCompleted: (val) async {
-                            Get.snackbar("Success", "Download Complete");
-                            controller.update();
-                          });
+                        name:
+                            "${controller.audioSelected['id']}${controller.selectedSheikhSuar[i]['id']}",
+                        url:
+                            "${controller.audioSelected['moshaf'][0]['server']}/${controller.selectedSheikhSuar[i]['array'][0]['filename']}",
+                        downloadDestination: DownloadDestinations.appFiles,
+                        onDownloadCompleted: (val) async {
+                          Get.snackbar("Success", "Download Complete");
+                          controller.update();
+                        },
+                      );
                     },
                     icon: const Icon(Icons.downloading_rounded))
                 : IconButton(

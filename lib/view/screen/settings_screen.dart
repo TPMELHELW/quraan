@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/view/screen/aboutapp.dart';
+import 'package:quraan/view/screen/about_app.dart';
 import 'package:quraan/view/screen/change_size_screen.dart';
-import 'package:quraan/view/widget/containerview.dart';
+import 'package:quraan/view/widget/container_view.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
                       ? "Light Mode"
                       : "Dark Mode",
                   onPressed: () {
-                    controller.onPress();
+                    controller.toggleTheme();
                     controller.update();
                   },
                 ),

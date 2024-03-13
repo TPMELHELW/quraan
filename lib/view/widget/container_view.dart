@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/core/services/sharedpreferences.dart';
+import 'package:quraan/core/services/shared_preferences.dart';
 
 class ContainerView extends StatelessWidget {
   final String mainText, subText;

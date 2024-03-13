@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quraan/controller/surahcontroller.dart';
+import 'package:quraan/controller/surah_controller.dart';
 
 class SliderView extends StatelessWidget {
   final SurahController controller;

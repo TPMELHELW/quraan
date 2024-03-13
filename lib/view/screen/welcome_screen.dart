@@ -6,7 +6,6 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: Column(
         children: [
           Image.asset('assets/images/1.png'),

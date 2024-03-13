@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/core/services/sharedpreferences.dart';
+import 'package:quraan/core/services/shared_preferences.dart';
 
 class SettingsController extends GetxController {
   double valueSliderAyah = 10;
   double valueSliderTafsir = 10;
   Services myservices = Get.find();
 
-  onPress() {
-    if (Get.isDarkMode) {
+  late ThemeMode themeMode;
+
+  void toggleTheme() {
+    if (themeMode == ThemeMode.dark) {
       myservices.shared.setBool("dark", false);
-      Get.changeTheme(customLightTheme);
+
+      themeMode = ThemeMode.light;
+      update();
     } else {
       myservices.shared.setBool("dark", true);
-      Get.changeTheme(customDarkTheme);
+
+      themeMode = ThemeMode.dark;
     }
+    update();
   }
 
   ThemeData customDarkTheme = ThemeData.dark().copyWith(
@@ -45,7 +51,7 @@ class SettingsController extends GetxController {
         fontWeight: FontWeight.bold,
       ),
       bodyMedium: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontFamily: "cairo",
         fontWeight: FontWeight.bold,
       ),
@@ -88,6 +94,14 @@ class SettingsController extends GetxController {
   );
   @override
   void onInit() {
+    if (myservices.shared.getBool('dark') == true || Get.isPlatformDarkMode) {
+      themeMode = ThemeMode.dark;
+      myservices.shared.setBool('dark', true);
+    } else {
+      themeMode = ThemeMode.light;
+      myservices.shared.setBool('dark', false);
+    }
+
     valueSliderAyah = myservices.shared.getDouble("fontsize") ?? 20;
     valueSliderTafsir = myservices.shared.getDouble("fontsizetafsir") ?? 20;
     super.onInit();

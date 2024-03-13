@@ -9,7 +9,7 @@ class TextFieldSize extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             bottomLeft: Radius.circular(30),
