@@ -3,5 +3,6 @@ enum StatusRequest {
   none,
   offline,
   failure,
-  loading
+  loading,
+  noData,
 }

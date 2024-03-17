@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quraan/controller/surah_controller.dart';
+import 'package:Moshafi/controller/surah_controller.dart';
+import 'package:Moshafi/view/widget/container_id_widget.dart';
 
-class SurahSelectionView extends StatelessWidget {
+class SurahSelectionViewWidget extends StatelessWidget {
   final SurahController controller;
-  const SurahSelectionView({super.key, required this.controller});
+  const SurahSelectionViewWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,7 @@ class SurahSelectionView extends StatelessWidget {
               controller.onSurahTap(i);
               controller.update();
             },
-            leading: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(10)),
+            leading: ContainerIdWidget(
                 child: Text("${controller.quranData[i]['id']}")),
             title: Text(
               "${controller.quranData[i]['name_translation']}",

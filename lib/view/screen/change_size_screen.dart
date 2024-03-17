@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/view/widget/settings_widgets/size_slider.dart';
+import 'package:Moshafi/controller/settings_controller.dart';
+import 'package:Moshafi/view/widget/settings_screen_widgets/size_slider.dart';
 
 class ChangeSizeScreen extends StatelessWidget {
   const ChangeSizeScreen({super.key});
@@ -54,8 +54,7 @@ class ChangeSizeScreen extends StatelessWidget {
                                 controller.valueSliderAyah = value;
                                 controller.myservices.shared.setDouble(
                                     "fontsize", controller.valueSliderAyah);
-                                print(controller.myservices.shared
-                                    .getDouble("fontsize"));
+
                                 controller.update();
                               },
                             ),

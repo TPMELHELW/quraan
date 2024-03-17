@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/surah_controller.dart';
-import 'package:quraan/view/screen/audio_screen.dart';
-import 'package:quraan/view/screen/quran_surah_screen.dart';
-import 'package:quraan/view/screen/settings_screen.dart';
-import 'package:quraan/view/widget/container_view.dart';
+import 'package:Moshafi/controller/surah_controller.dart';
+import 'package:Moshafi/view/screen/audio_screen.dart';
+import 'package:Moshafi/view/screen/quran_surah_screen.dart';
+import 'package:Moshafi/view/screen/settings_screen.dart';
+import 'package:Moshafi/view/widget/selection_container_widget.dart';
 
 class SelectionScreen extends StatelessWidget {
   const SelectionScreen({super.key});
@@ -30,30 +30,30 @@ class SelectionScreen extends StatelessWidget {
         child: ListView(
           children: [
             GetBuilder<SurahController>(
-              builder: (con) => ContainerView(
+              builder: (con) => SelectionContainerWidget(
                 mainText: 'last Read',
-                subText: controller.myservices.shared.getString('lastread') ??
+                subText: controller.myServices.shared.getString('lastread') ??
                     'Empty',
                 onPressed: () {
                   controller.lastReadOnPress();
                 },
               ),
             ),
-            ContainerView(
+            SelectionContainerWidget(
               mainText: 'Quran',
               subText: 'Holy Quran',
               onPressed: () {
                 Get.to(() => const QuranSurahScreen());
               },
             ),
-            ContainerView(
+            SelectionContainerWidget(
               mainText: 'Quran Audio',
               subText: 'Audio',
               onPressed: () {
                 Get.to(() => const AudioScreen());
               },
             ),
-            ContainerView(
+            SelectionContainerWidget(
               mainText: 'Ideas',
               subText: 'Settings',
               onPressed: () {

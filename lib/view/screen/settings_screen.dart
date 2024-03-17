@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/view/screen/about_app.dart';
-import 'package:quraan/view/screen/change_size_screen.dart';
-import 'package:quraan/view/widget/container_view.dart';
+import 'package:Moshafi/controller/settings_controller.dart';
+import 'package:Moshafi/view/screen/about_app.dart';
+import 'package:Moshafi/view/screen/change_size_screen.dart';
+import 'package:Moshafi/view/widget/selection_container_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // SettingsController controller = Get.put(SettingsController());
     return Scaffold(
       body: SafeArea(
         child: GetBuilder<SettingsController>(
@@ -18,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
           builder: (controller) {
             return ListView(
               children: [
-                ContainerView(
+                SelectionContainerWidget(
                   mainText: "Tap to change the Theme",
                   subText: controller.myservices.shared.getBool("dark") == true
                       ? "Light Mode"
@@ -28,14 +27,14 @@ class SettingsScreen extends StatelessWidget {
                     controller.update();
                   },
                 ),
-                ContainerView(
+                SelectionContainerWidget(
                   mainText: "Change the size ",
                   subText: "Ayah,Tafsir",
                   onPressed: () {
                     Get.to(const ChangeSizeScreen());
                   },
                 ),
-                ContainerView(
+                SelectionContainerWidget(
                   mainText: "About App",
                   subText: "About App",
                   onPressed: () {

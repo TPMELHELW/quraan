@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/surah_controller.dart';
-import 'package:quraan/core/constant/enum.dart';
-import 'package:quraan/view/widget/search_widget.dart';
-import 'package:quraan/view/widget/surah_selection_view.dart';
+import 'package:Moshafi/controller/surah_controller.dart';
+import 'package:Moshafi/core/constant/enum.dart';
+import 'package:Moshafi/view/widget/search_widget.dart';
+import 'package:Moshafi/view/widget/surah_selection_view_widget.dart';
 
 class QuranSurahScreen extends StatelessWidget {
   const QuranSurahScreen({super.key});
@@ -34,7 +34,7 @@ class QuranSurahScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SurahSelectionView(
+                        SurahSelectionViewWidget(
                           controller: controller,
                         )
                       ],

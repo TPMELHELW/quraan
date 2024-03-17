@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quraan/controller/surah_controller.dart';
+import 'package:Moshafi/controller/surah_controller.dart';
 
 class SearchWidget extends StatelessWidget {
   final SurahController controller;

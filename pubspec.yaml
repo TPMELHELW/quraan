@@ -1,4 +1,4 @@
-name: quraan
+name: Moshafi
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -38,7 +38,6 @@ dependencies:
   get: ^4.6.6
   liquid_swipe: ^3.1.0
   
-  audioplayers: ^5.1.0
  
   arabic_tools: ^0.0.4
   shared_preferences: ^2.2.1
@@ -47,6 +46,10 @@ dependencies:
   flutter_file_downloader: ^1.2.1
   flutter_advanced_drawer: ^1.3.5
   permission_handler: ^11.0.1
+  internet_connection_checker: ^1.0.0+1
+  just_audio: ^0.9.36
+  just_audio_background: ^0.0.1-beta.11
+  lottie: ^3.1.0
 
 
 flutter_launcher_icons:
@@ -79,6 +82,7 @@ flutter:
   assets:
     - assets/images/
     - assets/json/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

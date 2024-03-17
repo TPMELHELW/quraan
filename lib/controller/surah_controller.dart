@@ -1,64 +1,32 @@
 import 'dart:convert';
 import 'package:arabic_tools/arabic_tools.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:get/get.dart';
-import 'package:quraan/core/constant/enum.dart';
-import 'package:quraan/core/functions/normalise.dart';
-import 'package:quraan/core/services/shared_preferences.dart';
-import 'package:quraan/main.dart';
-import 'package:quraan/view/screen/search_screen.dart';
-import 'package:quraan/view/widget/detail_surah.dart';
+import 'package:Moshafi/core/constant/enum.dart';
+import 'package:Moshafi/core/functions/normalise.dart';
+import 'package:Moshafi/core/services/shared_preferences.dart';
+import 'package:Moshafi/main.dart';
+import 'package:Moshafi/view/screen/search_screen.dart';
+import 'package:Moshafi/view/screen/surah_detail_screen.dart';
 
 class SurahController extends GetxController {
   //variables ==========================
   List searchResult = [];
-  List inf = [];
-  List infMainId = [];
-  List infArrayId = [];
   List searchTafsir = [];
-  Arabic_Tools arabictool = Arabic_Tools();
+  List infArrayId = [];
+  List infMainId = [];
   List quranData = [];
-  List selectedSheikhSuar = [];
-  List tafsir = [];
   List readers = [];
-  bool isSelected = false;
+  List tafsir = [];
+  List inf = [];
   ScrollController scroll = ScrollController();
-  bool isScroll = false;
-  AudioPlayer player = AudioPlayer();
-  AdvancedDrawerController drawerController = AdvancedDrawerController();
-  bool isPlaying = false;
-  bool isPlay = false;
-  Duration position = Duration.zero;
-  Duration duration = Duration.zero;
-  double value = 0;
-  bool isExist = false;
-  Map audioSelected = {};
+  Arabic_Tools arabictool = Arabic_Tools();
+  Services myServices = Get.find();
   late StatusRequest statusRequest;
-  Services myservices = Get.find();
+  bool isScroll = false;
 
 //functions=========================
-
-//audio Function===================
-  onPress(int i) {
-    try {
-      audioSelected = readers[i];
-      List m = readers[i]['moshaf'][0]["surah_list"]
-          .split(",")
-          .map(int.parse)
-          .toList();
-      selectedSheikhSuar.clear();
-      for (int i = 0; i < m.length; i++) {
-        List filtired =
-            quranData.where((element) => m[i] == element['id']).toList();
-        selectedSheikhSuar.addAll(filtired);
-      }
-      isSelected = true;
-    } catch (e) {}
-    update();
-  }
 
   Future decodeData() async {
     try {
@@ -83,7 +51,8 @@ class SurahController extends GetxController {
       }
       return 'success';
     } catch (e) {
-      print(e);
+      statusRequest = StatusRequest.failure;
+      update();
     }
     update();
   }
@@ -109,8 +78,6 @@ class SurahController extends GetxController {
               inf.add(surah['name']);
               infMainId.add(surah['id']);
               infArrayId.add(surah['array'][index]['id']);
-            } else {
-              print('NO Data');
             }
           },
         );
@@ -122,15 +89,28 @@ class SurahController extends GetxController {
             .toList();
         searchTafsir.addAll(filteredMapList);
       }
-      statusRequest = StatusRequest.success;
-      update();
-      Get.to(
-        () => SearchScreen(
-          search: searchResult,
-          inf: inf,
-          tafsir: searchTafsir,
-        ),
-      );
+      if (searchResult.isEmpty) {
+        // print('nnnn');
+        statusRequest = StatusRequest.noData;
+        update();
+        Get.to(
+          () => SearchScreen(
+            search: searchResult,
+            inf: inf,
+            tafsir: searchTafsir,
+          ),
+        );
+      } else {
+        statusRequest = StatusRequest.success;
+        update();
+        Get.to(
+          () => SearchScreen(
+            search: searchResult,
+            inf: inf,
+            tafsir: searchTafsir,
+          ),
+        );
+      }
     } catch (e) {
       statusRequest = StatusRequest.failure;
       update();
@@ -141,11 +121,11 @@ class SurahController extends GetxController {
   void onSurahTap(int i) {
     List filteredMapList =
         tafsir.where((map) => map["chapter"] == quranData[i]['id']).toList();
-    myservices.shared
+    myServices.shared
         .setString('lastread', '${quranData[i]['name_translation']}');
-    myservices.shared.setInt('numberlastread', i);
+    myServices.shared.setInt('numberlastread', i);
     Get.to(
-      () => DetailSurah(
+      () => SurahDetailScreen(
         id: quranData[i]['array'],
         filteredMapList: filteredMapList,
       ),
@@ -156,20 +136,21 @@ class SurahController extends GetxController {
   //last read function========================================
   void lastReadOnPress() {
     try {
-      List myMap = tafsir;
-      List filteredMapList = myMap
+      // List myMap = tafsir;
+      List filteredMapList = tafsir
           .where((map) =>
               map["chapter"] ==
-              quranData[myservices.shared.getInt('numberlastread')!]['id'])
+              quranData[myServices.shared.getInt('numberlastread')!]['id'])
           .toList();
       Get.to(
-        () => DetailSurah(
-          id: quranData[myservices.shared.getInt('numberlastread')!]['array'],
+        () => SurahDetailScreen(
+          id: quranData[myServices.shared.getInt('numberlastread')!]['array'],
           filteredMapList: filteredMapList,
         ),
       );
     } catch (e) {
-      print(e);
+      statusRequest = StatusRequest.failure;
+      update();
     }
     update();
   }
@@ -193,35 +174,14 @@ class SurahController extends GetxController {
   void onInit() async {
     statusRequest = StatusRequest.none;
     super.onInit();
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await decodeData(Get.context!);
-    // });
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark));
-    player.onPlayerStateChanged.listen((event) {
-      isPlaying = event == PlayerState.playing;
-      update();
-    });
+
     await Future.wait([decodeData()]).then(
       (value) => Get.offAll(
         () => const StackScreen(),
       ),
     );
-    player.onPositionChanged.listen((event) {
-      position = event;
-      update();
-    });
-
-    player.onDurationChanged.listen((event) {
-      duration = event;
-      update();
-    });
-  }
-
-  @override
-  void dispose() {
-    drawerController.dispose();
-    super.dispose();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark));
   }
 }

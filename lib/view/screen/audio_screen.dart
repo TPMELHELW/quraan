@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/surah_controller.dart';
-import 'package:quraan/view/widget/audio_screen/drawer_widget.dart';
-import 'package:quraan/view/widget/audio_screen/screen_view.dart';
-import 'package:quraan/view/widget/audio_screen/slider_view.dart';
+import 'package:Moshafi/controller/audio_controller.dart';
+import 'package:Moshafi/view/screen/surah_audio_screen.dart';
+import 'package:Moshafi/view/widget/audio_screen_widgets/drawer_widget.dart';
+import 'package:Moshafi/view/widget/audio_screen_widgets/screen_view.dart';
 
 class AudioScreen extends StatelessWidget {
   const AudioScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SurahController>(
-      init: SurahController(),
+    AdvancedDrawerController drawerController = AdvancedDrawerController();
+    Get.put(AudioController(), permanent: true);
+    return GetBuilder<AudioController>(
       builder: (controller) {
         return AdvancedDrawer(
-          controller: controller.drawerController,
+          controller: drawerController,
           backdropColor: Colors.grey,
           childDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
           ),
           drawer: DrawerWidget(
             controller: controller,
+            drawerController: drawerController,
           ),
           child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
               title: const Text(
                 "Audio",
-                style: TextStyle(color: Colors.black),
               ),
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -46,8 +46,20 @@ class AudioScreen extends StatelessWidget {
                       ScreenView(
                         controller: controller,
                       ),
-                      SliderView(
-                        controller: controller,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            Get.to(
+                              () => SurahAudioScreen(
+                                controller: controller,
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.music_note,
+                          ),
+                        ),
                       )
                     ],
                   ),

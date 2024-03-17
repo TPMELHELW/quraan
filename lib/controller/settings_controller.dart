@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/core/services/shared_preferences.dart';
+import 'package:Moshafi/core/services/shared_preferences.dart';
 
 class SettingsController extends GetxController {
   double valueSliderAyah = 10;
@@ -51,7 +51,7 @@ class SettingsController extends GetxController {
         fontWeight: FontWeight.bold,
       ),
       bodyMedium: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
         fontFamily: "cairo",
         fontWeight: FontWeight.bold,
       ),

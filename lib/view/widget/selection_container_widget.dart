@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/core/services/shared_preferences.dart';
+import 'package:Moshafi/controller/settings_controller.dart';
+import 'package:Moshafi/core/services/shared_preferences.dart';
 
-class ContainerView extends StatelessWidget {
+class SelectionContainerWidget extends StatelessWidget {
   final String mainText, subText;
   final void Function()? onPressed;
-  const ContainerView(
+  const SelectionContainerWidget(
       {super.key,
       required this.mainText,
       required this.subText,

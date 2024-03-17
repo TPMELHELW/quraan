@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:quraan/controller/surah_controller.dart';
+import 'package:Moshafi/controller/surah_controller.dart';
 
 class MainBinding extends Bindings {
   @override

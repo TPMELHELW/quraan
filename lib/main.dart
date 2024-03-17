@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:quraan/binding/binding.dart';
-import 'package:quraan/controller/settings_controller.dart';
-import 'package:quraan/controller/surah_controller.dart';
-import 'package:quraan/core/services/shared_preferences.dart';
-import 'package:quraan/view/screen/selection_screen.dart';
-import 'package:quraan/view/screen/welcome_screen.dart';
+import 'package:Moshafi/binding/binding.dart';
+import 'package:Moshafi/controller/settings_controller.dart';
+import 'package:Moshafi/controller/surah_controller.dart';
+import 'package:Moshafi/core/services/shared_preferences.dart';
+import 'package:Moshafi/view/screen/selection_screen.dart';
+import 'package:Moshafi/view/screen/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initia();
+  await JustAudioBackground.init(
+    androidNotificationIcon: 'mipmap/launcher_icon.png',
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+    androidNotificationChannelDescription: 'M.E',
+  );
   runApp(const MyApp());
 }
 
@@ -69,13 +77,3 @@ class StackScreen extends StatelessWidget {
     );
   }
 }
-
-// class SplashScreen extends StatelessWidget {
-//   const SplashScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     Get.put(SplashScreenController());
-//     return
-//   }
-// }
