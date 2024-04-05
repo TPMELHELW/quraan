@@ -20,12 +20,13 @@ class SurahController extends GetxController {
   List readers = [];
   List tafsir = [];
   List inf = [];
+  Map normaliseData = {};
   ScrollController scroll = ScrollController();
   Arabic_Tools arabictool = Arabic_Tools();
   Services myServices = Get.find();
   late StatusRequest statusRequest;
   bool isScroll = false;
-
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
 //functions=========================
 
   Future decodeData() async {
@@ -57,59 +58,75 @@ class SurahController extends GetxController {
     update();
   }
 
+  void normaliseFun() {
+    for (var surah in quranData) {
+      surah['array'].asMap().forEach((index, ayah) {
+        String ayat = normalise(ayah['ar']);
+        normaliseData.addAll({
+          ayat: {
+            'id': ayah['id'],
+            'ar': ayah['ar'],
+            'name': surah['name'],
+            'mainId': surah['id']
+          }
+        });
+      });
+    }
+  }
+
   //search========================================================
   void searchQuran(String query) {
     try {
-      statusRequest = StatusRequest.loading;
-      update();
-      searchResult.clear();
-      inf.clear();
-      infArrayId.clear();
-      infMainId.clear();
-      searchTafsir.clear();
-      String processedQuery = arabictool.RemoveTashkeel(query);
-
-      for (var surah in quranData) {
-        surah['array'].asMap().forEach(
-          (index, ayat) {
-            var ayat0 = normalise(ayat['ar']);
-            if (ayat0.contains(processedQuery.toLowerCase())) {
-              searchResult.add(ayat['ar']);
-              inf.add(surah['name']);
-              infMainId.add(surah['id']);
-              infArrayId.add(surah['array'][index]['id']);
-            }
-          },
-        );
-      }
-      for (int i = 0; i < infMainId.length; i++) {
-        List filteredMapList = tafsir
-            .where((map) =>
-                map["chapter"] == infMainId[i] && map['verse'] == infArrayId[i])
-            .toList();
-        searchTafsir.addAll(filteredMapList);
-      }
-      if (searchResult.isEmpty) {
-        // print('nnnn');
-        statusRequest = StatusRequest.noData;
+      bool formData = formState.currentState!.validate();
+      if (formData) {
+        statusRequest = StatusRequest.loading;
         update();
-        Get.to(
-          () => SearchScreen(
-            search: searchResult,
-            inf: inf,
-            tafsir: searchTafsir,
-          ),
-        );
-      } else {
-        statusRequest = StatusRequest.success;
-        update();
-        Get.to(
-          () => SearchScreen(
-            search: searchResult,
-            inf: inf,
-            tafsir: searchTafsir,
-          ),
-        );
+        searchResult.clear();
+        inf.clear();
+        infArrayId.clear();
+        infMainId.clear();
+        searchTafsir.clear();
+        String processedQuery = arabictool.RemoveTashkeel(query);
+        //ayah Search
+        for (var key in normaliseData.keys) {
+          if (key.contains(processedQuery.toLowerCase())) {
+            searchResult.add(normaliseData[key]['ar']);
+            inf.add(normaliseData[key]['name']);
+            infMainId.add(normaliseData[key]['mainId']);
+            infArrayId.add(normaliseData[key]['id']);
+          }
+        }
+        //Tafsir Search
+        for (int i = 0; i < infMainId.length; i++) {
+          List filteredMapList = tafsir
+              .where((map) =>
+                  map["chapter"] == infMainId[i] &&
+                  map['verse'] == infArrayId[i])
+              .toList();
+          searchTafsir.addAll(filteredMapList);
+        }
+        print(searchTafsir);
+        if (searchResult.isEmpty) {
+          statusRequest = StatusRequest.noData;
+          update();
+          Get.to(
+            () => SearchScreen(
+              search: searchResult,
+              inf: inf,
+              tafsir: searchTafsir,
+            ),
+          );
+        } else {
+          statusRequest = StatusRequest.success;
+          update();
+          Get.to(
+            () => SearchScreen(
+              search: searchResult,
+              inf: inf,
+              tafsir: searchTafsir,
+            ),
+          );
+        }
       }
     } catch (e) {
       statusRequest = StatusRequest.failure;
@@ -136,7 +153,6 @@ class SurahController extends GetxController {
   //last read function========================================
   void lastReadOnPress() {
     try {
-      // List myMap = tafsir;
       List filteredMapList = tafsir
           .where((map) =>
               map["chapter"] ==
@@ -175,11 +191,13 @@ class SurahController extends GetxController {
     statusRequest = StatusRequest.none;
     super.onInit();
 
-    await Future.wait([decodeData()]).then(
-      (value) => Get.offAll(
+    await Future.wait([decodeData()]).then((value) {
+      Get.offAll(
         () => const StackScreen(),
-      ),
-    );
+      );
+
+      normaliseFun();
+    });
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark));

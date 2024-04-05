@@ -9,15 +9,26 @@ class SearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Form(
+        key: controller.formState,
         child: TextFormField(
+          validator: (val) {
+            if (val!.isEmpty) {
+              return 'Not Valid value';
+            }
+            return null;
+          },
           onFieldSubmitted: (val) => controller.searchQuran(val),
           decoration: const InputDecoration(
-            labelText: 'Search For Ayah',
+            filled: true,
+            fillColor: Colors.grey,
+            hintText: 'Search For Ayah',
+            hintStyle: TextStyle(color: Colors.black),
             border: OutlineInputBorder(
+              borderSide: BorderSide.none,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+                topLeft: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
               ),
             ),
           ),

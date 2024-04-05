@@ -17,7 +17,7 @@ class ScreenView extends StatelessWidget {
         itemCount: controller.selectedSheikhSuar.length,
         itemBuilder: (context, i) {
           bool exist = File(
-                  '/storage/emulated/0/Android/data/com.example.Moshafi/files/data/user/0/com.example.Moshafi/files/${controller.audioSelected['id']}${controller.selectedSheikhSuar[i]['id']}.mp3')
+                  '/storage/emulated/0/Android/data/com.example.quraan/files/data/user/0/com.example.quraan/files/${controller.audioSelected['id']}${controller.selectedSheikhSuar[i]['id']}.mp3')
               .existsSync();
           return ListTile(
             onTap: () {

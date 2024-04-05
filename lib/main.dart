@@ -14,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initia();
   await JustAudioBackground.init(
-    androidNotificationIcon: 'mipmap/launcher_icon.png',
+    androidNotificationIcon: 'mipmap/launcher_icon',
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
       init: SettingsController(),
       builder: (controller) {
         return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
           initialBinding: MainBinding(),
           home: Scaffold(
             backgroundColor: Colors.black,

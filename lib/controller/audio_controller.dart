@@ -116,18 +116,30 @@ class AudioController extends GetxController {
         update();
       },
     );
+    update();
   }
 
-  Future<void> playSurahOffline(int i) async {
-    await player.setUrl(
-      '/storage/emulated/0/Android/data/com.example.quraan/files/data/user/0/com.example.quraan/files/${audioSelected['id']}${selectedSheikhSuar[i]['id']}.mp3',
-    );
-
-    isPlaying = true;
-    isPlay = true;
-    await player.play();
-    currentPlay = i;
-    update();
+  Future<void> playSurahOffline(int index) async {
+    try {
+      currentPlay = index;
+      await player.setAudioSource(
+        AudioSource.file(
+          '/storage/emulated/0/Android/data/com.example.quraan/files/data/user/0/com.example.quraan/files/${audioSelected['id']}${selectedSheikhSuar[index]['id']}.mp3',
+          tag: MediaItem(
+            id: '1',
+            album: audioSelected['name'],
+            title: selectedSheikhSuar[currentPlay]['name_translation'],
+            artUri: Uri.parse(imageUrl),
+          ),
+        ),
+      );
+      isPlaying = true;
+      isPlay = true;
+      player.play();
+      update();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void onPress(int i) {

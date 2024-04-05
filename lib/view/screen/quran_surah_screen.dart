@@ -25,7 +25,7 @@ class QuranSurahScreen extends StatelessWidget {
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Row(
                             children: [
                               SearchWidget(
