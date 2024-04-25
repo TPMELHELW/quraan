@@ -79,8 +79,6 @@ class SurahController extends GetxController {
     try {
       bool formData = formState.currentState!.validate();
       if (formData) {
-        statusRequest = StatusRequest.loading;
-        update();
         searchResult.clear();
         inf.clear();
         infArrayId.clear();
@@ -105,7 +103,6 @@ class SurahController extends GetxController {
               .toList();
           searchTafsir.addAll(filteredMapList);
         }
-        print(searchTafsir);
         if (searchResult.isEmpty) {
           statusRequest = StatusRequest.noData;
           update();
@@ -189,17 +186,12 @@ class SurahController extends GetxController {
   @override
   void onInit() async {
     statusRequest = StatusRequest.none;
-    super.onInit();
-
     await Future.wait([decodeData()]).then((value) {
       Get.offAll(
         () => const StackScreen(),
       );
-
       normaliseFun();
     });
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark));
+    super.onInit();
   }
 }

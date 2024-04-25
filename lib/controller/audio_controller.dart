@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -18,12 +19,32 @@ class AudioController extends GetxController {
   late StatusRequest statusRequest;
   AudioPlayer player = AudioPlayer();
   late int currentPlay;
+  final FirebaseStorage storage = FirebaseStorage.instance;
   int nextAudio = 1;
+  int selectedSheikhIndex = 0;
+
   String imageUrl =
       'https://img.freepik.com/free-photo/free-photo-ramadan-kareem-eid-mubarak-royal-elegant-lamp-with-mosque-holy-gate-with-fireworks_1340-23603.jpg?t=st=1710550968~exp=1710554568~hmac=974217304834aa7c0586bea2746f45381510876fadeebb52c874639a913ff2c0&w=996';
   SurahController controller = Get.find<SurahController>();
 
-  checkInternetConnection() async {
+  Future audioSetFun({
+    required final String uri,
+    required final int index,
+  }) async {
+    await player.setAudioSource(
+      AudioSource.uri(
+        Uri.parse(uri),
+        tag: MediaItem(
+          id: '1',
+          album: audioSelected['name'],
+          title: selectedSheikhSuar[index]['name_translation'],
+          artUri: Uri.parse(imageUrl),
+        ),
+      ),
+    );
+  }
+
+  Future<void> checkInternetConnection() async {
     bool isConnected = await InternetConnectionChecker().hasConnection;
     isConnected
         ? statusRequest = StatusRequest.success
@@ -31,28 +52,24 @@ class AudioController extends GetxController {
     update();
   }
 
-  Future<void> playSurah(int i) async {
+  Future<void> playSurah(int index) async {
     await checkInternetConnection();
     if (statusRequest == StatusRequest.offline) {
     } else {
-      await player.setAudioSource(
-        AudioSource.uri(
-          Uri.parse(
-            '${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[i]['array'][0]['filename']}',
-          ),
-          tag: MediaItem(
-            id: '1',
-            album: audioSelected['name'],
-            title: selectedSheikhSuar[i]['name_translation'],
-            artUri: Uri.parse(imageUrl),
-          ),
-        ),
+      await audioSetFun(
+        uri: selectedSheikhIndex == 0
+            ? await storage
+                .ref()
+                .child('${selectedSheikhSuar[index]['array'][0]['filename']}')
+                .getDownloadURL()
+            : '${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[index]['array'][0]['filename']}',
+        index: index,
       );
 
       isPlaying = true;
       isPlay = true;
       player.play();
-      currentPlay = i;
+      currentPlay = index;
       update();
     }
   }
@@ -60,20 +77,10 @@ class AudioController extends GetxController {
   Future<void> nextSurah() async {
     await checkInternetConnection();
     if (statusRequest == StatusRequest.offline) {}
-    await player.setAudioSource(
-      AudioSource.uri(
-        Uri.parse(
-          '${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[currentPlay + nextAudio]['array'][0]['filename']}',
-        ),
-        tag: MediaItem(
-          id: '1',
-          album: audioSelected['name'],
-          title: selectedSheikhSuar[currentPlay + nextAudio]
-              ['name_translation'],
-          artUri: Uri.parse(imageUrl),
-        ),
-      ),
-    );
+    await audioSetFun(
+        uri:
+            '${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[currentPlay + nextAudio]['array'][0]['filename']}',
+        index: currentPlay + nextAudio);
     isPlaying = true;
     currentPlay++;
     player.play();
@@ -83,20 +90,11 @@ class AudioController extends GetxController {
   Future<void> previousSurah() async {
     await checkInternetConnection();
     if (statusRequest == StatusRequest.offline) {}
-    await player.setAudioSource(
-      AudioSource.uri(
-        Uri.parse(
-          '${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[currentPlay - nextAudio]['array'][0]['filename']}',
-        ),
-        tag: MediaItem(
-          id: '1',
-          album: audioSelected['name'],
-          title: selectedSheikhSuar[currentPlay - nextAudio]
-              ['name_translation'],
-          artUri: Uri.parse(imageUrl),
-        ),
-      ),
-    );
+    await audioSetFun(
+        uri:
+            '${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[currentPlay - nextAudio]['array'][0]['filename']}',
+        index: currentPlay - nextAudio);
+
     isPlaying = true;
 
     currentPlay--;
@@ -108,8 +106,12 @@ class AudioController extends GetxController {
     Permission.storage;
     FileDownloader.downloadFile(
       name: "${audioSelected['id']}${selectedSheikhSuar[i]['id']}",
-      url:
-          "${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[i]['array'][0]['filename']}",
+      url: selectedSheikhIndex == 0
+          ? await storage
+              .ref()
+              .child('${selectedSheikhSuar[i]['array'][0]['filename']}')
+              .getDownloadURL()
+          : "${audioSelected['moshaf'][0]['server']}/${selectedSheikhSuar[i]['array'][0]['filename']}",
       downloadDestination: DownloadDestinations.appFiles,
       onDownloadCompleted: (val) async {
         Get.snackbar("Success", "Download Complete");
@@ -122,6 +124,7 @@ class AudioController extends GetxController {
   Future<void> playSurahOffline(int index) async {
     try {
       currentPlay = index;
+
       await player.setAudioSource(
         AudioSource.file(
           '/storage/emulated/0/Android/data/com.example.quraan/files/data/user/0/com.example.quraan/files/${audioSelected['id']}${selectedSheikhSuar[index]['id']}.mp3',
@@ -133,17 +136,24 @@ class AudioController extends GetxController {
           ),
         ),
       );
+
       isPlaying = true;
       isPlay = true;
       player.play();
       update();
     } catch (e) {
+      print('1');
       print(e);
+      statusRequest = StatusRequest.failure;
+      update();
     }
   }
 
-  void onPress(int i) {
+  void selectSheikh(int i) {
     try {
+      selectedSheikhIndex = i;
+      print(i);
+      print({selectedSheikhIndex});
       audioSelected = controller.readers[i];
       List m = controller.readers[i]['moshaf'][0]["surah_list"]
           .split(",")
@@ -157,7 +167,10 @@ class AudioController extends GetxController {
         selectedSheikhSuar.addAll(filtired);
       }
       isSelected = true;
-    } catch (e) {}
+    } catch (e) {
+      statusRequest = StatusRequest.failure;
+      update();
+    }
     update();
   }
 

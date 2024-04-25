@@ -1,5 +1,21 @@
 [
     {
+        "id": 100,
+        "name": "أسامة السندي",
+        "letter": "أ",
+        "moshaf": [
+            {
+                "id": 51,
+                "name": "حفص عن عاصم - مرتل",
+                "server": "assets/audio",
+                "surah_total": 1,
+                "moshaf_type": 116,
+                "surah_list": "18",
+                "audio": "018"
+            }
+        ]
+    },
+    {
         "id": 208,
         "name": "هيثم الدخين",
         "letter": "ه",
@@ -349,4 +365,5 @@
             }
         ]
     }
+
 ]

@@ -21,18 +21,8 @@ class QuranSurahScreen extends StatelessWidget {
                 : SafeArea(
                     child: Column(
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Row(
-                            children: [
-                              SearchWidget(
-                                controller: controller,
-                              )
-                            ],
-                          ),
+                        SearchWidget(
+                          controller: controller,
                         ),
                         SurahSelectionViewWidget(
                           controller: controller,

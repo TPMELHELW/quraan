@@ -34,9 +34,8 @@ class DrawerWidget extends StatelessWidget {
               style: const TextStyle(fontFamily: "cairo"),
             ),
             onTap: () {
-              controller.onPress(i);
+              controller.selectSheikh(i);
               drawerController.hideDrawer();
-              // controller.update();
             },
           ),
         );

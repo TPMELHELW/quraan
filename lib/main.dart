@@ -1,3 +1,5 @@
+import 'package:Moshafi/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,9 @@ import 'package:Moshafi/view/screen/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await initia();
   await JustAudioBackground.init(
     androidNotificationIcon: 'mipmap/launcher_icon',

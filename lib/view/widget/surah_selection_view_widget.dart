@@ -9,6 +9,7 @@ class SurahSelectionViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      flex: 1,
       child: ListView.builder(
         controller: controller.scroll,
         shrinkWrap: true,

@@ -50,7 +50,7 @@ class SelectionContainerWidget extends StatelessWidget {
                           ? const AssetImage('assets/images/4.jpg')
                           : const AssetImage('assets/images/2.jpg'),
                       fit: BoxFit.fill),
-                  color: Colors.blue),
+                  color: Colors.transparent),
               duration: const Duration(milliseconds: 600),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
