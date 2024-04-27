@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:Moshafi/binding/binding.dart';
+import 'package:Moshafi/core/binding/binding.dart';
 import 'package:Moshafi/controller/settings_controller.dart';
 import 'package:Moshafi/controller/surah_controller.dart';
 import 'package:Moshafi/core/services/shared_preferences.dart';
